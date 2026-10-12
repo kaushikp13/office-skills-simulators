@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Word Simulator Test Harness</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 650px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin: 4px;
+      padding: 8px 14px;
+    }
+
+    pre {
+      background: #f5f5f5;
+      padding: 16px;
+      overflow: auto;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>Word Simulator Test Harness</h1>
+
+<div>
+  <button id="sendActivity">
+    Send PLUGIN_DATA_IN
+  </button>
+
+  <button id="pause">
+    Pause
+  </button>
+
+  <button id="resume">
+    Resume
+  </button>
+
+  <button id="dark">
+    Dark Theme
+  </button>
+
+  <button id="light">
+    Light Theme
+  </button>
+
+  <button id="forceFinish">
+    Force Finish
+  </button>
+</div>
+
+<h2>Messages received</h2>
+
+<pre id="log"></pre>
+
+<iframe
+  id="simulator"
+  src="http://localhost:4200">
+</iframe>
+
+<script>
+const frame = document.getElementById('simulator');
+const log = document.getElementById('log');
+
+function writeLog(value) {
+  log.textContent +=
+    JSON.stringify(value, null, 2) + '\n\n';
+}
+
+window.addEventListener('message', event => {
+  writeLog(event.data);
+});
+
+document.getElementById('sendActivity')
+  .addEventListener('click', () => {
+
+    frame.contentWindow.postMessage({
+      type: 'PLUGIN_DATA_IN',
+      payload: {
+        instruction: 'Make the word "really" bold.',
+        startingDocument: '<p>I really like pizza.</p>',
+        goals: [
+          {
+            type: 'textStyle',
+            text: 'really',
+            bold: true
+          }
+        ],
+        assetBaseUrl: './assets/',
+        theme: 'LIGHT'
+      }
+    }, '*');
+
+  });
+
+document.getElementById('pause')
+  .addEventListener('click', () => {
+    frame.contentWindow.postMessage({
+      type: 'PAUSE',
+      payload: {
+        pause: true
+      }
+    }, '*');
+  });
+
+document.getElementById('resume')
+  .addEventListener('click', () => {
+    frame.contentWindow.postMessage({
+      type: 'PAUSE',
+      payload: {
+        pause: false
+      }
+    }, '*');
+  });
+
+document.getElementById('dark')
+  .addEventListener('click', () => {
+    frame.contentWindow.postMessage({
+      type: 'PREFERENCE_CHANGED',
+      payload: {
+        type: 'theme',
+        value: 'DARK'
+      }
+    }, '*');
+  });
+
+document.getElementById('light')
+  .addEventListener('click', () => {
+    frame.contentWindow.postMessage({
+      type: 'PREFERENCE_CHANGED',
+      payload: {
+        type: 'theme',
+        value: 'LIGHT'
+      }
+    }, '*');
+  });
+
+document.getElementById('forceFinish')
+  .addEventListener('click', () => {
+    frame.contentWindow.postMessage({
+      type: 'FORCE_FINISH'
+    }, '*');
+  });
+
+</script>
+
+</body>
+</html>
