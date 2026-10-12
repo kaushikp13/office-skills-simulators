@@ -4,21 +4,22 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class CompletionGuardService {
-  private sent = false;
+
+  private completionSent = false;
 
   canSend(): boolean {
-    return !this.sent;
+    return !this.completionSent;
   }
 
   markSent(): void {
-    this.sent = true;
+    this.completionSent = true;
   }
 
-  reset(): void {
-    this.sent = false;
+  resetForNewActivity(): void {
+    this.completionSent = false;
   }
 
   hasSent(): boolean {
-    return this.sent;
+    return this.completionSent;
   }
 }

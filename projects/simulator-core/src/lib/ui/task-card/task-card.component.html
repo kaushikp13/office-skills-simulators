@@ -1,0 +1,65 @@
+<div class="task-card">
+
+  <p
+    *ngIf="task.explanation"
+    class="task-card__explanation">
+
+    {{ task.explanation }}
+
+  </p>
+
+  <div class="task-card__task">
+
+    <div class="task-card__label">
+      YOUR TASK
+    </div>
+
+    <h3 class="task-card__title">
+      {{ task.title }}
+    </h3>
+
+    <ol
+      *ngIf="task.instructions.length > 1"
+      class="task-card__instructions">
+
+      <li
+        *ngFor="let instruction of task.instructions">
+
+        {{ instruction }}
+
+      </li>
+
+    </ol>
+
+    <p
+      *ngIf="task.instructions.length === 1"
+      class="task-card__single-instruction">
+
+      {{ task.instructions[0] }}
+
+    </p>
+
+  </div>
+
+  <button
+    *ngIf="task.showMeHow"
+    type="button"
+    class="task-card__show-how"
+    [disabled]="disabled"
+    (click)="onShowHow()">
+
+    ▸ Show me how
+
+  </button>
+
+  <button
+    type="button"
+    class="task-card__check"
+    [disabled]="disabled || checking"
+    (click)="onCheckWork()">
+
+    {{ checking ? 'Checking...' : 'Check My Work' }}
+
+  </button>
+
+</div>

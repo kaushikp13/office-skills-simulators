@@ -1,0 +1,13 @@
+<div
+  class="mascot"
+  [class.incorrect]="state === 'incorrect'"
+  [class.correct]="state === 'correct'"
+  [attr.data-state]="state">
+
+  <span class="laptop">💻</span>
+
+  <span class="face">
+    {{ state === 'incorrect' ? '☹' : state === 'correct' ? '😁' : '🙂' }}
+  </span>
+
+</div>

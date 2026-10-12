@@ -1,0 +1,8 @@
+<div class="confetti" *ngIf="visible" aria-hidden="true">
+  <span
+    *ngFor="let i of pieces"
+    class="piece"
+    [style.left.%]="left(i)"
+    [style.animation-delay.s]="delay(i)"
+    [style.background]="color(i)"></span>
+</div>

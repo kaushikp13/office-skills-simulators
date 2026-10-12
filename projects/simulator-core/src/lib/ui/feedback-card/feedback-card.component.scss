@@ -1,0 +1,24 @@
+.feedback {
+  padding: 14px 16px;
+  margin-top: 14px;
+
+  border-radius: 10px;
+
+  font-size: 14px;
+}
+
+.feedback.incorrect {
+  background: var(--warning-surface, #fef7e0);
+  border-left: 4px solid var(--warning, #f9ab00);
+  color: var(--warning-text, #7a4f00);
+}
+
+.feedback.correct {
+  background: var(--success-surface, #e6f4ea);
+  border-left: 4px solid var(--success, #34a853);
+  color: var(--success-text, #137333);
+}
+
+.feedback p {
+  margin: 8px 0 0;
+}
