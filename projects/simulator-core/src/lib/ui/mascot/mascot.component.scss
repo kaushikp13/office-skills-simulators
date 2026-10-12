@@ -1,0 +1,14 @@
+.mascot {
+  position: relative;
+  display: inline-block;
+  font-size: 56px;
+  line-height: 1;
+}
+
+.face {
+  position: absolute;
+  left: 50%;
+  top: 8%;
+  transform: translateX(-50%);
+  font-size: 22px;
+}

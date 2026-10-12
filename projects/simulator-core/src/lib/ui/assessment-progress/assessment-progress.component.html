@@ -1,0 +1,13 @@
+<ol class="progress" aria-label="Assessment progress">
+
+  <li
+    *ngFor="let step of steps"
+    class="progress__step"
+    [ngClass]="'progress__step--' + step.state"
+    [attr.aria-current]="step.state === 'current' ? 'step' : null">
+
+    {{ step.state === 'passed' ? '✓' : step.number }}
+
+  </li>
+
+</ol>

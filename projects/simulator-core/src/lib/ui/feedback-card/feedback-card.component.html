@@ -1,0 +1,23 @@
+<div
+  *ngIf="status"
+  class="feedback"
+  [class.incorrect]="status === 'incorrect'"
+  [class.correct]="status === 'correct'">
+
+  <ng-container *ngIf="status === 'incorrect'">
+
+    <strong class="feedback__message">
+      {{ hint ? hint : 'Not quite right. Try again.' }}
+    </strong>
+
+  </ng-container>
+
+  <ng-container *ngIf="status === 'correct'">
+
+    <strong class="feedback__message">
+      Well done! You've got this!
+    </strong>
+
+  </ng-container>
+
+</div>

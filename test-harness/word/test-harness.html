@@ -40,6 +40,14 @@
     Send PLUGIN_DATA_IN
   </button>
 
+  <button id="sendWithHintGif">
+    Send PLUGIN_DATA_IN with hintGif
+  </button>
+
+  <button id="sendInvalid">
+    Send invalid PLUGIN_DATA_IN
+  </button>
+
   <button id="pause">
     Pause
   </button>
@@ -100,6 +108,38 @@ document.getElementById('sendActivity')
         ],
         assetBaseUrl: './assets/',
         theme: 'LIGHT'
+      }
+    }, '*');
+
+  });
+
+document.getElementById('sendWithHintGif')
+  .addEventListener('click', () => {
+
+    frame.contentWindow.postMessage({
+      type: 'PLUGIN_DATA_IN',
+      payload: {
+        instruction: 'Make the word "really" bold.',
+        startingDocument: '<p>I really like pizza.</p>',
+        goals: [
+          { type: 'textStyle', text: 'really', bold: true }
+        ],
+        hintGif: 'bold-demo.gif',
+        assetBaseUrl: './assets/',
+        theme: 'LIGHT'
+      }
+    }, '*');
+
+  });
+
+// Missing required fields: the simulator should answer with pluginError.
+document.getElementById('sendInvalid')
+  .addEventListener('click', () => {
+
+    frame.contentWindow.postMessage({
+      type: 'PLUGIN_DATA_IN',
+      payload: {
+        goals: []
       }
     }, '*');
 

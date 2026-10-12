@@ -1,69 +1,52 @@
 <div
-  class="phase-one-shell"
-  [class.dark-theme]="theme === 'DARK'">
+  class="simulator-shell"
+  [class.theme-dark]="theme === 'DARK'"
+  [class.frozen]="paused">
 
-  <div class="header">
-    <h1>Word Simulator</h1>
+  <!-- Word editor area (real editor arrives in a later phase) -->
+  <main class="editor-area" aria-label="Document editor"></main>
 
-    <span
-      class="status-badge"
-      [class.paused]="paused">
+  <!-- Shared learning UI -->
+  <lib-confetti [play]="confettiPlay"></lib-confetti>
 
-      {{ paused ? 'PAUSED' : 'ACTIVE' }}
+  <aside class="checker" *ngIf="taskState as state">
 
-    </span>
-  </div>
+    <!-- Working: task card plus retry feedback -->
+    <ng-container *ngIf="state.status === 'active' || state.status === 'incorrect'">
 
-  <h2>Phase 1 — Host Communication</h2>
+      <lib-task-card
+        [task]="state.task"
+        [disabled]="paused"
+        (checkWork)="onCheckWork()"
+        (showHow)="onShowMeHow()">
+      </lib-task-card>
 
-  <div class="status-grid">
+      <lib-feedback-card
+        [status]="state.status === 'incorrect' ? 'incorrect' : null"
+        [hint]="state.task.hint">
+      </lib-feedback-card>
 
-    <div class="status-card">
-      <strong>Host Connection</strong>
-      <span>Connected</span>
-    </div>
+    </ng-container>
 
-    <div class="status-card">
-      <strong>Theme</strong>
-      <span>{{ theme }}</span>
-    </div>
+    <!-- Passed: success card and Continue -->
+    <ng-container *ngIf="state.status === 'correct' || state.status === 'completed'">
 
-    <div class="status-card">
-      <strong>Activity</strong>
+      <lib-feedback-card status="correct"></lib-feedback-card>
 
-      <span>
-        {{ activityReceived ? 'RECEIVED' : 'WAITING' }}
-      </span>
-    </div>
+      <button
+        type="button"
+        class="continue-button"
+        [disabled]="paused || state.status === 'completed'"
+        (click)="onContinue()">
 
-    <div class="status-card">
-      <strong>Interaction</strong>
+        Continue →
 
-      <span>
-        {{ paused ? 'FROZEN' : 'ENABLED' }}
-      </span>
-    </div>
+      </button>
 
-  </div>
+    </ng-container>
 
-  <div
-    class="pause-overlay"
-    *ngIf="paused">
+    <lib-mascot [state]="mascotState"></lib-mascot>
 
-    Activity Paused
-
-  </div>
-
-  <section class="activity-panel">
-
-    <h3>PLUGIN_DATA_IN</h3>
-
-    <p *ngIf="!activityReceived">
-      Waiting for activity from host...
-    </p>
-
-    <pre *ngIf="activityReceived">{{ activityJson }}</pre>
-
-  </section>
+  </aside>
 
 </div>
